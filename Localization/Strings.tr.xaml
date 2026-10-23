@@ -1,0 +1,160 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=System.Runtime">
+    <sys:String x:Key="L.App.Title">DiskMap — Disk Alanı Haritası</sys:String>
+    <sys:String x:Key="L.App.ErrorTitle">DiskMap — Beklenmeyen hata</sys:String>
+    <sys:String x:Key="L.Common.File">Dosya</sys:String>
+    <sys:String x:Key="L.Common.Folder">Klasör</sys:String>
+
+    <sys:String x:Key="L.Browse">Klasör…</sys:String>
+    <sys:String x:Key="L.Browse.Tooltip">Taranacak klasörü seç</sys:String>
+    <sys:String x:Key="L.Path.Tooltip">Taranacak klasörün tam yolu</sys:String>
+    <sys:String x:Key="L.Scan">Tara</sys:String>
+    <sys:String x:Key="L.Scan.Tooltip">Salt okunur tarama — dosyalarınız taşınmaz veya silinmez</sys:String>
+    <sys:String x:Key="L.Cancel">İptal</sys:String>
+    <sys:String x:Key="L.Export">Rapor</sys:String>
+    <sys:String x:Key="L.Export.Tooltip">Tarama sonucunu Markdown veya CSV olarak kaydet</sys:String>
+    <sys:String x:Key="L.Language.Tooltip">Arayüz dili</sys:String>
+    <sys:String x:Key="L.Status.Ready">Hazır — tarama salt okunurdur; dosyalarınız taşınmaz veya silinmez.</sys:String>
+    <sys:String x:Key="L.Status.Scanning">Taranıyor…</sys:String>
+    <sys:String x:Key="L.Status.Preparing">Hazırlanıyor…</sys:String>
+    <sys:String x:Key="L.Status.Canceling">İptal ediliyor…</sys:String>
+    <sys:String x:Key="L.Status.Canceled">Tarama iptal edildi.</sys:String>
+    <sys:String x:Key="L.Status.Progress">{0} dosya · {1} · {2}</sys:String>
+    <sys:String x:Key="L.Status.Summary">{0} · {1} dosya · {2} klasör · {3:0.0} sn</sys:String>
+    <sys:String x:Key="L.Status.Skipped"> · {0} öğe atlandı</sys:String>
+    <sys:String x:Key="L.Status.Stale" xml:space="preserve">  ·  değişiklik var, yeniden tarayın</sys:String>
+    <sys:String x:Key="L.Drive.Label">{0}  ·  {1} boş / {2}</sys:String>
+
+    <sys:String x:Key="L.Color.By">Renk</sys:String>
+    <sys:String x:Key="L.Color.Type">Tür</sys:String>
+    <sys:String x:Key="L.Color.Age">Yaş</sys:String>
+    <sys:String x:Key="L.Color.Size">Boyut</sys:String>
+    <sys:String x:Key="L.Legend.Less6m">&lt;6a</sys:String>
+    <sys:String x:Key="L.Legend.6to12m">6–12a</sys:String>
+    <sys:String x:Key="L.Legend.1to2y">1–2y</sys:String>
+    <sys:String x:Key="L.Legend.2yPlus">2y+</sys:String>
+    <sys:String x:Key="L.Legend.Small">Küçük</sys:String>
+    <sys:String x:Key="L.Legend.Large">Büyük</sys:String>
+
+    <sys:String x:Key="L.Tab.Types">Türler</sys:String>
+    <sys:String x:Key="L.Tab.Largest">En Büyük</sys:String>
+    <sys:String x:Key="L.Tab.Duplicates">Kopyalar</sys:String>
+    <sys:String x:Key="L.Tab.Cleanup">Temizlik</sys:String>
+    <sys:String x:Key="L.Tab.Search">Ara</sys:String>
+
+    <sys:String x:Key="L.Types.Waiting">Tarama bekleniyor</sys:String>
+    <sys:String x:Key="L.Types.Header">{0} dosya · {1}</sys:String>
+    <sys:String x:Key="L.Types.NoExtension">(uzantısız)</sys:String>
+    <sys:String x:Key="L.Types.Other">Diğer</sys:String>
+    <sys:String x:Key="L.Largest.Waiting">Tarama bekleniyor</sys:String>
+    <sys:String x:Key="L.Largest.All">En büyük dosyalar (500)</sys:String>
+    <sys:String x:Key="L.Largest.Filtered">{0} · en büyük 500</sys:String>
+    <sys:String x:Key="L.Largest.ClearFilter">Filtreyi kaldır</sys:String>
+    <sys:String x:Key="L.Column.File">DOSYA</sys:String>
+    <sys:String x:Key="L.Column.Size">BOYUT</sys:String>
+    <sys:String x:Key="L.Column.Type">TÜR</sys:String>
+    <sys:String x:Key="L.Column.Item">ÖĞE</sys:String>
+    <sys:String x:Key="L.Column.Reason">NEDEN</sys:String>
+
+    <sys:String x:Key="L.Dup.Description">Aynı içeriğe sahip dosyaları bulur (en az 1 MB). Hiçbir dosya sizin seçiminiz ve onayınız olmadan taşınmaz.</sys:String>
+    <sys:String x:Key="L.Dup.Find">Kopyaları Bul</sys:String>
+    <sys:String x:Key="L.Dup.Stop">Durdur</sys:String>
+    <sys:String x:Key="L.Dup.NotScanned">Henüz taranmadı.</sys:String>
+    <sys:String x:Key="L.Dup.Scanning">Kopyalar taranıyor…</sys:String>
+    <sys:String x:Key="L.Dup.NotFound">Kopya bulunamadı.</sys:String>
+    <sys:String x:Key="L.Dup.Summary">Grup: {0} · Kazanılabilir: {1}</sys:String>
+    <sys:String x:Key="L.Dup.Stopped">Kopya taraması durduruldu.</sys:String>
+    <sys:String x:Key="L.Dup.Error">Hata: {0}</sys:String>
+    <sys:String x:Key="L.Dup.Reclaimable">{0} kazanılabilir</sys:String>
+    <sys:String x:Key="L.Dup.Header">Kopya: {0} · Tanesi: {1}</sys:String>
+    <sys:String x:Key="L.Dup.Selected">Seçili: {0}</sys:String>
+    <sys:String x:Key="L.Dup.SelectExtras">Fazlalıkları seç</sys:String>
+    <sys:String x:Key="L.Dup.SelectExtras.Tooltip">Her grupta en eski dosya dışındakileri seçer</sys:String>
+    <sys:String x:Key="L.Dup.MoveToRecycle">Geri dönüşüme taşı</sys:String>
+    <sys:String x:Key="L.Dup.Move.Tooltip">Kalıcı olarak silmez; Geri Dönüşüm Kutusu'na taşır</sys:String>
+    <sys:String x:Key="L.Dup.Confirm">{0} dosya Geri Dönüşüm Kutusu'na taşınacak ({1}).&#10;&#10;Devam edilsin mi?</sys:String>
+    <sys:String x:Key="L.Dup.Moved">{0} dosya taşındı.</sys:String>
+    <sys:String x:Key="L.Dup.MovedFailed">{0} dosya taşındı, {1} başarısız.</sys:String>
+
+    <sys:String x:Key="L.Junk.Description">Geliştirici artıkları (node_modules, bin, obj, __pycache__…), geçici dosyalar ve boş klasörler. Hiçbir öğe varsayılan olarak seçili gelmez; taşıma yalnızca sizin onayınızla Geri Dönüşüm Kutusu'na yapılır.</sys:String>
+    <sys:String x:Key="L.Junk.Scan">Temizlik Adaylarını Tara</sys:String>
+    <sys:String x:Key="L.Junk.SelectAll">Tümünü seç</sys:String>
+    <sys:String x:Key="L.Junk.Clear">Seçimi temizle</sys:String>
+    <sys:String x:Key="L.Junk.NotScanned">Henüz taranmadı.</sys:String>
+    <sys:String x:Key="L.Junk.Scanning">Temizlik adayları aranıyor…</sys:String>
+    <sys:String x:Key="L.Junk.NotFound">Temizlik adayı bulunamadı.</sys:String>
+    <sys:String x:Key="L.Junk.Summary">Aday: {0} · Toplam: {1}</sys:String>
+    <sys:String x:Key="L.Junk.Error">Hata: {0}</sys:String>
+    <sys:String x:Key="L.Junk.Reason.Temp">Geçici dosya</sys:String>
+    <sys:String x:Key="L.Junk.Reason.Dev">Geliştirici artığı</sys:String>
+    <sys:String x:Key="L.Junk.Reason.Empty">Boş klasör</sys:String>
+    <sys:String x:Key="L.Junk.Selected">Seçili: {0}</sys:String>
+    <sys:String x:Key="L.Junk.Confirm">{0} öğe Geri Dönüşüm Kutusu'na taşınacak ({1}).&#10;&#10;Devam edilsin mi?</sys:String>
+    <sys:String x:Key="L.Junk.Moved">{0} öğe taşındı.</sys:String>
+    <sys:String x:Key="L.Junk.MovedFailed">{0} öğe taşındı, {1} başarısız.</sys:String>
+    <sys:String x:Key="L.Junk.MoveToRecycle">Geri dönüşüme taşı</sys:String>
+
+    <sys:String x:Key="L.Search.NameContains">Ad içerir</sys:String>
+    <sys:String x:Key="L.Search.Type">Tür</sys:String>
+    <sys:String x:Key="L.Search.MinSize">En az boyut</sys:String>
+    <sys:String x:Key="L.Search.LastModified">Son değişiklik</sys:String>
+    <sys:String x:Key="L.Search.Action">Ara</sys:String>
+    <sys:String x:Key="L.Search.Ready">Tarama hazır. Filtreleyip Ara'ya basın.</sys:String>
+    <sys:String x:Key="L.Search.AllTypes">Tüm türler</sys:String>
+    <sys:String x:Key="L.Search.AllSizes">Tüm boyutlar</sys:String>
+    <sys:String x:Key="L.Search.Size10MB">&gt; 10 MB</sys:String>
+    <sys:String x:Key="L.Search.Size100MB">&gt; 100 MB</sys:String>
+    <sys:String x:Key="L.Search.Size1GB">&gt; 1 GB</sys:String>
+    <sys:String x:Key="L.Search.Size10GB">&gt; 10 GB</sys:String>
+    <sys:String x:Key="L.Search.AllTime">Tüm zamanlar</sys:String>
+    <sys:String x:Key="L.Search.Older6m">6 aydan eski</sys:String>
+    <sys:String x:Key="L.Search.Older1y">1 yıldan eski</sys:String>
+    <sys:String x:Key="L.Search.Older2y">2 yıldan eski</sys:String>
+    <sys:String x:Key="L.Search.Results">Sonuç: {0}</sys:String>
+    <sys:String x:Key="L.Search.First2000">Sonuç: {0} (ilk 2000)</sys:String>
+
+    <sys:String x:Key="L.Msg.InvalidPath">Geçerli bir klasör yolu girin.</sys:String>
+    <sys:String x:Key="L.Msg.ScanError">Tarama sırasında hata oluştu:&#10;{0}</sys:String>
+    <sys:String x:Key="L.Msg.ScanFirst">Önce bir tarama yapın.</sys:String>
+    <sys:String x:Key="L.Msg.RootProtected">Taranan kök klasör (veya üst klasörü) buradan taşınamaz.&#10;&#10;Güvenlik için yalnızca kök klasörün içindeki öğeler taşınabilir.</sys:String>
+    <sys:String x:Key="L.Msg.RecycleUnavailable">Güvenlik için hiçbir öğe taşınmadı.&#10;&#10;{0} konumunda Geri Dönüşüm Kutusu kullanılamıyor (bulunamadı veya devre dışı). DiskMap yalnızca geri dönüşüm kutusuna taşıma yapar.</sys:String>
+    <sys:String x:Key="L.Msg.RecycleUnavailable.Title">DiskMap — İşlem yapılmadı</sys:String>
+    <sys:String x:Key="L.Menu.Open">Aç</sys:String>
+    <sys:String x:Key="L.Menu.Reveal">Gezgin'de göster</sys:String>
+    <sys:String x:Key="L.Menu.CopyPath">Yolu kopyala</sys:String>
+    <sys:String x:Key="L.Menu.MoveToRecycle">Geri dönüşüm kutusuna taşı</sys:String>
+
+    <sys:String x:Key="L.Confirm.Title">DiskMap — Onay</sys:String>
+    <sys:String x:Key="L.Confirm.Footer">Öğeler Geri Dönüşüm Kutusu'na taşınır ve oradan geri alınabilir.</sys:String>
+    <sys:String x:Key="L.Confirm.Cancel">Vazgeç</sys:String>
+    <sys:String x:Key="L.Confirm.Continue">Devam</sys:String>
+    <sys:String x:Key="L.Confirm.Move">Geri dönüşüme taşı</sys:String>
+    <sys:String x:Key="L.Confirm.ItemMessage">Geri dönüşüm kutusuna taşınsın mı?&#10;&#10;{0}</sys:String>
+
+    <sys:String x:Key="L.File.Missing">Öğe artık mevcut değil.&#10;{0}</sys:String>
+    <sys:String x:Key="L.File.OpenFailed">Öğe açılamadı</sys:String>
+    <sys:String x:Key="L.Explorer.OpenFailed">Gezgin açılamadı</sys:String>
+    <sys:String x:Key="L.Item.Moved">Öğe Geri Dönüşüm Kutusu'na taşındı.</sys:String>
+    <sys:String x:Key="L.Item.MoveFailed">Öğe taşınamadı (kullanımda veya izin yok).</sys:String>
+
+    <sys:String x:Key="L.Treemap.Prompt">Bir klasör seçip “Tara”ya basın</sys:String>
+    <sys:String x:Key="L.Treemap.Empty">Bu konumda görüntülenecek öğe yok</sys:String>
+
+    <sys:String x:Key="L.Report.SaveTitle">DiskMap raporunu kaydet</sys:String>
+    <sys:String x:Key="L.Report.Saved">Rapor kaydedildi:&#10;{0}</sys:String>
+    <sys:String x:Key="L.Report.WriteError">Rapor yazılamadı:&#10;{0}</sys:String>
+    <sys:String x:Key="L.Report.Title"># DiskMap Raporu</sys:String>
+    <sys:String x:Key="L.Report.DateLine">- **Tarih:** {0}</sys:String>
+    <sys:String x:Key="L.Report.LocationLine">- **Taranan konum:** `{0}`</sys:String>
+    <sys:String x:Key="L.Report.TotalSizeLine">- **Toplam boyut:** {0}</sys:String>
+    <sys:String x:Key="L.Report.FilesLine">- **Dosya:** {0}</sys:String>
+    <sys:String x:Key="L.Report.FoldersLine">- **Klasör:** {0}</sys:String>
+    <sys:String x:Key="L.Report.ElapsedLine">- **Tarama süresi:** {0:0.0} sn</sys:String>
+    <sys:String x:Key="L.Report.SkippedLine">- **Atlanan öğe:** {0}</sys:String>
+    <sys:String x:Key="L.Report.TypeDistribution">## Tür dağılımı</sys:String>
+    <sys:String x:Key="L.Report.TypeHeader">| Tür | Boyut | Dosya | Pay |</sys:String>
+    <sys:String x:Key="L.Report.Largest">## En büyük dosyalar</sys:String>
+    <sys:String x:Key="L.Report.FileHeader">| Dosya | Boyut | Değiştirilme | Konum |</sys:String>
+    <sys:String x:Key="L.Report.CsvHeader">Dosya,Boyut (bayt),Boyut,Tür,Değiştirilme,Konum</sys:String>
+</ResourceDictionary>

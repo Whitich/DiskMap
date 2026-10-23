@@ -1,0 +1,505 @@
+﻿<Window x:Class="DiskMap.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="clr-namespace:DiskMap.Controls"
+        mc:Ignorable="d"
+        Title="{DynamicResource L.App.Title}"
+        Width="1420" Height="880" MinWidth="1080" MinHeight="640"
+        WindowStartupLocation="CenterScreen"
+        Background="{StaticResource BgBrush}"
+        Foreground="{StaticResource TextBrush}"
+        FontFamily="Segoe UI" FontSize="13"
+        UseLayoutRounding="True" SnapsToDevicePixels="True"
+        Closing="Window_Closing">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" MinWidth="560"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="440" MinWidth="340"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- ================= SOL: HARİTA ================= -->
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Araç çubuğu -->
+            <Border Grid.Row="0" Background="{StaticResource PanelBrush}"
+                    BorderBrush="{StaticResource BorderSoftBrush}" BorderThickness="0,0,0,1" Padding="12,10">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,18,0">
+                        <Border Width="10" Height="10" CornerRadius="3" Background="{StaticResource AccentBrush}" VerticalAlignment="Center"/>
+                        <TextBlock Text="DiskMap" FontSize="16" FontWeight="Bold" Margin="8,0,0,0"
+                                   Foreground="{StaticResource TextBrush}" VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <ComboBox x:Name="DriveCombo" Grid.Column="1" Width="210" Height="32"
+                              SelectionChanged="DriveCombo_SelectionChanged"/>
+
+                    <Button x:Name="BrowseButton" Grid.Column="2" Content="{DynamicResource L.Browse}" Height="32"
+                            Margin="8,0,0,0" Click="Browse_Click" ToolTip="{DynamicResource L.Browse.Tooltip}"/>
+
+                    <TextBox x:Name="PathBox" Grid.Column="3" Height="32" Margin="8,0"
+                             VerticalContentAlignment="Center" KeyDown="PathBox_KeyDown"
+                             ToolTip="{DynamicResource L.Path.Tooltip}"/>
+
+                    <Button x:Name="ScanButton" Grid.Column="4" Content="{DynamicResource L.Scan}" Width="86" Height="32"
+                            Style="{StaticResource AccentButton}" Click="Scan_Click"
+                            ToolTip="{DynamicResource L.Scan.Tooltip}"/>
+
+                    <Button x:Name="CancelButton" Grid.Column="5" Content="{DynamicResource L.Cancel}" Width="70" Height="32"
+                            Margin="8,0,0,0" Visibility="Collapsed" Click="Cancel_Click"/>
+
+                    <Button x:Name="ExportButton" Grid.Column="6" Content="{DynamicResource L.Export}" Height="32"
+                            Margin="8,0,0,0" Click="Export_Click"
+                            ToolTip="{DynamicResource L.Export.Tooltip}"/>
+                </Grid>
+            </Border>
+
+            <!-- Kırıntı yolu ve harita renkleri -->
+            <Border Grid.Row="1" Background="{StaticResource BgBrush}" Padding="12,6,12,4">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled">
+                        <StackPanel x:Name="BreadcrumbPanel" Orientation="Horizontal"/>
+                    </ScrollViewer>
+
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="12,0,0,0">
+                        <TextBlock Text="{DynamicResource L.Color.By}" Foreground="{StaticResource MutedBrush}"
+                                   FontSize="11" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                        <ComboBox x:Name="ColorModeCombo" Width="94" Height="25" FontSize="11.5"
+                                  SelectionChanged="ColorModeCombo_SelectionChanged">
+                            <ComboBoxItem Content="{DynamicResource L.Color.Type}" Tag="Type"/>
+                            <ComboBoxItem Content="{DynamicResource L.Color.Age}" Tag="Age"/>
+                            <ComboBoxItem Content="{DynamicResource L.Color.Size}" Tag="Size"/>
+                        </ComboBox>
+
+                        <StackPanel x:Name="AgeLegend" Orientation="Horizontal" VerticalAlignment="Center"
+                                    Margin="10,0,0,0" Visibility="Collapsed">
+                            <Rectangle Width="8" Height="8" RadiusX="2" RadiusY="2" Fill="#59B36C" VerticalAlignment="Center"/>
+                            <TextBlock Text="{DynamicResource L.Legend.Less6m}" Foreground="{StaticResource MutedBrush}"
+                                       FontSize="10" Margin="4,0,8,0" VerticalAlignment="Center"/>
+                            <Rectangle Width="8" Height="8" RadiusX="2" RadiusY="2" Fill="#C9A227" VerticalAlignment="Center"/>
+                            <TextBlock Text="{DynamicResource L.Legend.6to12m}" Foreground="{StaticResource MutedBrush}"
+                                       FontSize="10" Margin="4,0,8,0" VerticalAlignment="Center"/>
+                            <Rectangle Width="8" Height="8" RadiusX="2" RadiusY="2" Fill="#D98A3D" VerticalAlignment="Center"/>
+                            <TextBlock Text="{DynamicResource L.Legend.1to2y}" Foreground="{StaticResource MutedBrush}"
+                                       FontSize="10" Margin="4,0,8,0" VerticalAlignment="Center"/>
+                            <Rectangle Width="8" Height="8" RadiusX="2" RadiusY="2" Fill="#D9615B" VerticalAlignment="Center"/>
+                            <TextBlock Text="{DynamicResource L.Legend.2yPlus}" Foreground="{StaticResource MutedBrush}"
+                                       FontSize="10" Margin="4,0,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+
+                        <StackPanel x:Name="SizeLegend" Orientation="Horizontal" VerticalAlignment="Center"
+                                    Margin="10,0,0,0" Visibility="Collapsed">
+                            <Rectangle Width="8" Height="8" RadiusX="2" RadiusY="2" Fill="#334C7D" VerticalAlignment="Center"/>
+                            <TextBlock Text="{DynamicResource L.Legend.Small}" Foreground="{StaticResource MutedBrush}"
+                                       FontSize="10" Margin="4,0,10,0" VerticalAlignment="Center"/>
+                            <Rectangle Width="8" Height="8" RadiusX="2" RadiusY="2" Fill="#D7A13F" VerticalAlignment="Center"/>
+                            <TextBlock Text="{DynamicResource L.Legend.Large}" Foreground="{StaticResource MutedBrush}"
+                                       FontSize="10" Margin="4,0,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- Harita -->
+            <Grid Grid.Row="2" Margin="12,0,12,8">
+                <Border Background="#0A0D12" BorderBrush="{StaticResource BorderSoftBrush}"
+                        BorderThickness="1" CornerRadius="8" ClipToBounds="True">
+                    <controls:TreemapControl x:Name="Treemap"
+                                             NodeActivated="Treemap_NodeActivated"
+                                             HoverChanged="Treemap_HoverChanged"/>
+                </Border>
+
+                <Border x:Name="ScanOverlay" VerticalAlignment="Bottom" HorizontalAlignment="Center"
+                        Margin="0,0,0,18" Background="#E610151F" CornerRadius="8" Padding="16,12"
+                        BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"
+                        Visibility="Collapsed">
+                    <StackPanel Width="340">
+                        <TextBlock x:Name="ScanOverlayText" Foreground="{StaticResource TextBrush}"
+                                   FontSize="12" TextTrimming="CharacterEllipsis"/>
+                        <ProgressBar Style="{StaticResource MarqueeBar}" Margin="0,9,0,0"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <!-- Durum çubuğu -->
+            <Border Grid.Row="3" Background="{StaticResource PanelBrush}"
+                    BorderBrush="{StaticResource BorderSoftBrush}" BorderThickness="0,1,0,0" Padding="12,7">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock x:Name="StatusText" Text="{DynamicResource L.Status.Ready}"
+                               Foreground="{StaticResource MutedBrush}" FontSize="11.5" VerticalAlignment="Center"/>
+                    <TextBlock x:Name="HoverText" Grid.Column="1" Text=""
+                               Foreground="{StaticResource MutedBrush}" FontSize="11.5"
+                               HorizontalAlignment="Right" VerticalAlignment="Center"
+                               TextTrimming="CharacterEllipsis" Margin="16,0,0,0"/>
+                    <ComboBox x:Name="LanguageCombo" Grid.Column="2" Width="104" Height="24"
+                              FontSize="11.5" Margin="12,0,0,0" VerticalAlignment="Center"
+                              DisplayMemberPath="Name" SelectionChanged="LanguageCombo_SelectionChanged"
+                              ToolTip="{DynamicResource L.Language.Tooltip}"/>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <GridSplitter Grid.Column="1" Width="6" HorizontalAlignment="Stretch"
+                      ResizeDirection="Columns" ResizeBehavior="PreviousAndNext"
+                      Cursor="SizeWE" Background="Transparent"/>
+
+        <!-- ================= SAĞ: PANEL ================= -->
+        <TabControl x:Name="MainTabs" Grid.Column="2" Margin="4,10,10,10">
+
+            <!-- Türler -->
+            <TabItem Header="{DynamicResource L.Tab.Types}">
+                <Grid Margin="0,8,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock x:Name="TypesHeader" Text="{DynamicResource L.Types.Waiting}"
+                               Foreground="{StaticResource MutedBrush}" Margin="4,0,4,8"/>
+                    <ListBox x:Name="TypesList" Grid.Row="1" SelectionChanged="TypesList_SelectionChanged">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="0,2">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="16"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="58"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Rectangle Width="9" Height="9" RadiusX="2" RadiusY="2"
+                                               Fill="{Binding Brush}" VerticalAlignment="Center"/>
+                                    <TextBlock Grid.Column="1" Text="{Binding Label}" Margin="4,0"
+                                               FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
+                                    <TextBlock Grid.Column="2" Text="{Binding SizeText}" Margin="8,0"
+                                               Foreground="{StaticResource MutedBrush}" FontFamily="Consolas"/>
+                                    <TextBlock Grid.Column="3" Text="{Binding CountText}" TextAlignment="Right"
+                                               Foreground="{StaticResource MutedBrush}" FontSize="11"/>
+                                    <ProgressBar Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
+                                                 Height="3" Value="{Binding Percent}" Maximum="100" Margin="4,6,0,0"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Grid>
+            </TabItem>
+
+            <!-- En büyük dosyalar -->
+            <TabItem Header="{DynamicResource L.Tab.Largest}">
+                <Grid Margin="0,8,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid Margin="4,0,4,6">
+                        <TextBlock x:Name="LargestHeader" Text="{DynamicResource L.Largest.Waiting}"
+                                   Foreground="{StaticResource MutedBrush}" VerticalAlignment="Center"/>
+                        <Button x:Name="ClearFilterButton" Content="{DynamicResource L.Largest.ClearFilter}" HorizontalAlignment="Right"
+                                Style="{StaticResource SubtleButton}" Visibility="Collapsed"
+                                Click="ClearFilter_Click"/>
+                    </Grid>
+                    <DataGrid x:Name="LargestGrid" Grid.Row="1" RowHeight="42"
+                              MouseDoubleClick="FileGrid_MouseDoubleClick">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="{DynamicResource L.Column.File}" Width="*" SortMemberPath="Name" IsReadOnly="True">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Margin="0,3">
+                                            <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis"
+                                                       Foreground="{StaticResource TextBrush}"/>
+                                            <TextBlock Text="{Binding Folder}" TextTrimming="CharacterEllipsis"
+                                                       FontSize="10" Foreground="{StaticResource MutedBrush}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="{DynamicResource L.Column.Size}" Binding="{Binding SizeText}"
+                                                SortMemberPath="Size" Width="80" IsReadOnly="True">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="HorizontalAlignment" Value="Right"/>
+                                        <Setter Property="FontFamily" Value="Consolas"/>
+                                        <Setter Property="Foreground" Value="{StaticResource MutedBrush}"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="{DynamicResource L.Column.Type}" Binding="{Binding TypeLabel}"
+                                                Width="52" IsReadOnly="True">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Foreground" Value="{StaticResource MutedBrush}"/>
+                                        <Setter Property="FontSize" Value="11"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+
+            <!-- Kopyalar -->
+            <TabItem Header="{DynamicResource L.Tab.Duplicates}">
+                <Grid Margin="0,10,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="{DynamicResource L.Dup.Description}"
+                               TextWrapping="Wrap" Foreground="{StaticResource MutedBrush}" FontSize="11.5"
+                               Margin="4,0,4,4"/>
+
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="4,4,4,0">
+                        <Button x:Name="FindDuplicatesButton" Content="{DynamicResource L.Dup.Find}"
+                                Style="{StaticResource AccentButton}" Click="FindDuplicates_Click"/>
+                        <Button x:Name="StopDuplicatesButton" Content="{DynamicResource L.Dup.Stop}" Margin="8,0,0,0"
+                                Style="{StaticResource SubtleButton}" Visibility="Collapsed"
+                                Click="StopDuplicates_Click"/>
+                        <ProgressBar x:Name="DupProgress" Style="{StaticResource MarqueeBar}"
+                                     Width="90" Margin="12,0,0,0" VerticalAlignment="Center"
+                                     Visibility="Collapsed"/>
+                    </StackPanel>
+
+                    <TextBlock x:Name="DupStatus" Grid.Row="2" Text="{DynamicResource L.Dup.NotScanned}"
+                               Foreground="{StaticResource MutedBrush}" FontSize="11.5" Margin="4,8,4,8"/>
+
+                    <ScrollViewer Grid.Row="3" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                        <ItemsControl x:Name="DuplicateList">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Background="{StaticResource CardBrush}"
+                                            BorderBrush="{StaticResource BorderSoftBrush}" BorderThickness="1"
+                                            CornerRadius="7" Margin="0,0,0,8" Padding="9,7">
+                                        <StackPanel>
+                                            <DockPanel Margin="0,0,0,5">
+                                                <TextBlock Text="{Binding ReclaimableText}" FontWeight="Bold"
+                                                           Foreground="{StaticResource WarnBrush}" FontSize="11.5"/>
+                                                <TextBlock Text="{Binding HeaderText}" Margin="8,0,0,0"
+                                                           Foreground="{StaticResource MutedBrush}" FontSize="10.5"/>
+                                            </DockPanel>
+                                            <ItemsControl ItemsSource="{Binding Files}">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay}"
+                                                                  ToolTip="{Binding Path}" Margin="0,2">
+                                                            <CheckBox.Content>
+                                                                <TextBlock Text="{Binding DisplayName}" MaxWidth="350"
+                                                                           TextTrimming="CharacterEllipsis" FontSize="11"/>
+                                                            </CheckBox.Content>
+                                                        </CheckBox>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+
+                    <Grid Grid.Row="4" Margin="4,8,4,0">
+                        <TextBlock x:Name="DupTotal" Text="—" VerticalAlignment="Center"
+                                   Foreground="{StaticResource MutedBrush}" FontSize="11.5"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button x:Name="SelectDupExtrasButton" Content="{DynamicResource L.Dup.SelectExtras}"
+                                    Style="{StaticResource SubtleButton}" IsEnabled="False"
+                                    Click="SelectDupExtras_Click"
+                                    ToolTip="{DynamicResource L.Dup.SelectExtras.Tooltip}"/>
+                            <Button x:Name="DeleteDupButton" Content="{DynamicResource L.Dup.MoveToRecycle}"
+                                    Style="{StaticResource DangerButton}" Margin="8,0,0,0"
+                                    IsEnabled="False" Click="DeleteDuplicates_Click"
+                                    ToolTip="{DynamicResource L.Dup.Move.Tooltip}"/>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </TabItem>
+
+            <!-- Temizlik -->
+            <TabItem Header="{DynamicResource L.Tab.Cleanup}">
+                <Grid Margin="0,10,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="{DynamicResource L.Junk.Description}"
+                               TextWrapping="Wrap" Foreground="{StaticResource MutedBrush}" FontSize="11.5"
+                               Margin="4,0,4,4"/>
+
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="4,4,4,0">
+                        <Button x:Name="ScanJunkButton" Content="{DynamicResource L.Junk.Scan}"
+                                Style="{StaticResource AccentButton}" Click="ScanJunk_Click"/>
+                        <Button x:Name="JunkSelectAllButton" Content="{DynamicResource L.Junk.SelectAll}" Margin="8,0,0,0"
+                                Style="{StaticResource SubtleButton}" Click="JunkSelectAll_Click"/>
+                        <Button x:Name="JunkClearButton" Content="{DynamicResource L.Junk.Clear}" Margin="4,0,0,0"
+                                Style="{StaticResource SubtleButton}" Click="JunkClearSelection_Click"/>
+                    </StackPanel>
+
+                    <TextBlock x:Name="JunkStatus" Grid.Row="2" Text="{DynamicResource L.Junk.NotScanned}"
+                               Foreground="{StaticResource MutedBrush}" FontSize="11.5" Margin="4,8,4,8"
+                               TextWrapping="Wrap"/>
+
+                    <DataGrid x:Name="JunkGrid" Grid.Row="3" IsReadOnly="False" RowHeight="44"
+                              CanUserSortColumns="False" Margin="0,0,0,0">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Width="28" IsReadOnly="False">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay}"
+                                                  HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="{DynamicResource L.Column.Item}" Width="*" IsReadOnly="True">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Margin="0,3">
+                                            <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis"
+                                                       Foreground="{StaticResource TextBrush}"/>
+                                            <TextBlock Text="{Binding Folder}" TextTrimming="CharacterEllipsis"
+                                                       FontSize="10" Foreground="{StaticResource MutedBrush}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="{DynamicResource L.Column.Reason}" Binding="{Binding Reason}" Width="92" IsReadOnly="True">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Foreground" Value="{StaticResource MutedBrush}"/>
+                                        <Setter Property="FontSize" Value="10.5"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="{DynamicResource L.Column.Size}" Binding="{Binding SizeText}" Width="66" IsReadOnly="True">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="HorizontalAlignment" Value="Right"/>
+                                        <Setter Property="FontFamily" Value="Consolas"/>
+                                        <Setter Property="Foreground" Value="{StaticResource MutedBrush}"/>
+                                        <Setter Property="FontSize" Value="11"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <Grid Grid.Row="4" Margin="4,8,4,0">
+                        <TextBlock x:Name="JunkTotalText" Text="—" VerticalAlignment="Center"
+                                   Foreground="{StaticResource MutedBrush}" FontSize="11.5"/>
+                        <Button x:Name="DeleteJunkButton" Content="{DynamicResource L.Junk.MoveToRecycle}"
+                                Style="{StaticResource DangerButton}" HorizontalAlignment="Right"
+                                IsEnabled="False" Click="DeleteJunk_Click"
+                                ToolTip="{DynamicResource L.Dup.Move.Tooltip}"/>
+                    </Grid>
+                </Grid>
+            </TabItem>
+
+            <!-- Ara -->
+            <TabItem Header="{DynamicResource L.Tab.Search}">
+                <Grid Margin="0,10,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Margin="4,0,4,0">
+                        <TextBlock Text="{DynamicResource L.Search.NameContains}" Foreground="{StaticResource MutedBrush}" FontSize="11" Margin="0,0,0,3"/>
+                        <TextBox x:Name="SearchName" Height="30" KeyDown="SearchBox_KeyDown"/>
+
+                        <Grid Margin="0,8,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="8"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel>
+                                <TextBlock Text="{DynamicResource L.Search.Type}" Foreground="{StaticResource MutedBrush}" FontSize="11" Margin="0,0,0,3"/>
+                                <ComboBox x:Name="SearchExt" Height="30"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="2">
+                                <TextBlock Text="{DynamicResource L.Search.MinSize}" Foreground="{StaticResource MutedBrush}" FontSize="11" Margin="0,0,0,3"/>
+                                <ComboBox x:Name="SearchSize" Height="30"/>
+                            </StackPanel>
+                        </Grid>
+
+                        <TextBlock Text="{DynamicResource L.Search.LastModified}" Foreground="{StaticResource MutedBrush}" FontSize="11" Margin="0,8,0,3"/>
+                        <ComboBox x:Name="SearchAge" Height="30"/>
+                    </StackPanel>
+
+                    <Button x:Name="SearchButton" Grid.Row="1" Content="{DynamicResource L.Search.Action}" Style="{StaticResource AccentButton}"
+                            Margin="4,10,4,0" Click="Search_Click"/>
+
+                    <TextBlock x:Name="SearchCount" Grid.Row="2" Text="{DynamicResource L.Search.Ready}"
+                               Foreground="{StaticResource MutedBrush}" FontSize="11.5" Margin="4,8,4,6"/>
+
+                    <DataGrid x:Name="SearchGrid" Grid.Row="3" RowHeight="42"
+                              MouseDoubleClick="FileGrid_MouseDoubleClick">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="{DynamicResource L.Column.File}" Width="*" SortMemberPath="Name" IsReadOnly="True">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Margin="0,3">
+                                            <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis"
+                                                       Foreground="{StaticResource TextBrush}"/>
+                                            <TextBlock Text="{Binding Folder}" TextTrimming="CharacterEllipsis"
+                                                       FontSize="10" Foreground="{StaticResource MutedBrush}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="{DynamicResource L.Column.Size}" Binding="{Binding SizeText}"
+                                                SortMemberPath="Size" Width="84" IsReadOnly="True">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="HorizontalAlignment" Value="Right"/>
+                                        <Setter Property="FontFamily" Value="Consolas"/>
+                                        <Setter Property="Foreground" Value="{StaticResource MutedBrush}"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
