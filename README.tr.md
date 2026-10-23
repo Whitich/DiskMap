@@ -2,12 +2,27 @@
 
 [English](README.md) | **Türkçe**
 
+<p align="center">
+  <a href="https://github.com/Whitich/DiskMap/releases/latest/download/DiskMap.exe">
+    <img src="https://img.shields.io/badge/Download-DiskMap.exe-2ea44f?style=for-the-badge&logo=windows&logoColor=white" alt="DiskMap.exe indir">
+  </a>
+</p>
+
 Windows için hızlı, modern ve güvenli bir disk alanı görselleştiricisi. Klasörlerinizi
 etkileşimli bir treemap üzerinde inceleyin; büyük dosyaları, kopyaları, geliştirici
 artıklarını ve boş klasörleri bulun. Arayüz İngilizce (varsayılan) ve Türkçe olarak
 kullanılabilir.
 
 ![DiskMap ekran görüntüsü](screenshots/main.png)
+
+## İndir
+
+[**DiskMap.exe'yi indir**](https://github.com/Whitich/DiskMap/releases/latest/download/DiskMap.exe)
+
+Windows 10/11 x64 için taşınabilir, kendi kendine yeterli tek dosyalık sürüm.
+Kurulum ve ayrı bir .NET çalışma zamanı gerekmez. Derleme imzasız olduğu için
+Windows SmartScreen uyarı gösterebilir; derlemeye güveniyorsanız
+**Ek bilgi → Yine de çalıştır** ile devam edebilirsiniz.
 
 ## Özellikler
 

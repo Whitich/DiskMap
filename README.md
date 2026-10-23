@@ -2,11 +2,26 @@
 
 **English** | [Türkçe](README.tr.md)
 
+<p align="center">
+  <a href="https://github.com/Whitich/DiskMap/releases/latest/download/DiskMap.exe">
+    <img src="https://img.shields.io/badge/Download-DiskMap.exe-2ea44f?style=for-the-badge&logo=windows&logoColor=white" alt="Download DiskMap.exe">
+  </a>
+</p>
+
 A fast, modern, safety-first disk space visualizer for Windows. Explore folders on
 an interactive treemap, find large files, duplicates, developer leftovers, and
 empty folders. The interface is available in English (default) and Turkish.
 
 ![DiskMap screenshot](screenshots/main.png)
+
+## Download
+
+[**Download DiskMap.exe**](https://github.com/Whitich/DiskMap/releases/latest/download/DiskMap.exe)
+
+This is the portable, self-contained single-file build for Windows 10/11 x64.
+No installation and no separate .NET runtime are required. The build is unsigned,
+so Windows SmartScreen may show a warning; choose **More info → Run anyway** if
+you trust the build.
 
 ## Features
 
