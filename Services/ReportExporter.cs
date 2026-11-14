@@ -77,5 +77,15 @@ public static class ReportExporter
 
     private static string Escape(string value) => value.Replace("|", "\\|");
 
-    private static string Csv(string value) => "\"" + value.Replace("\"", "\"\"") + "\"";
+    private static string Csv(string value)
+    {
+        // Quoting alone does not stop spreadsheet applications from evaluating formulas.
+        var trimmed = value.AsSpan().TrimStart();
+        if (!trimmed.IsEmpty && trimmed[0] is '=' or '+' or '-' or '@')
+        {
+            value = "'" + value;
+        }
+
+        return "\"" + value.Replace("\"", "\"\"") + "\"";
+    }
 }
