@@ -66,6 +66,13 @@ DiskMap, siz açıkça seçmedikçe hiçbir dosyayı taşımaz.
 
 Derleme çıktıları bu depoya bilerek eklenmez.
 
+Derlemeden önce depoyu klonlayın ve PowerShell'de proje dizinine geçin:
+
+```powershell
+git clone https://github.com/Whitich/DiskMap.git
+cd DiskMap
+```
+
 ```powershell
 .\build.ps1
 ```
@@ -74,6 +81,10 @@ Derleme çıktıları bu depoya bilerek eklenmez.
 
 - `publish\DiskMap.exe` — taşınabilir, kendi kendine yeterli tek dosya
 - `dist\DiskMap-Setup-1.0.0.exe` — Inno Setup kurulum dosyası
+
+Kurulum dosyası yalnızca Inno Setup 6 yüklüyse üretilir. Yüklü değilse betik
+uyarı verir ve taşınabilir uygulamayı hazır bırakır. Taşınabilir sürümü
+`.\publish\DiskMap.exe` komutuyla başlatabilirsiniz.
 
 Yalnızca taşınabilir sürümü üretmek için:
 
