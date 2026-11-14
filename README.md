@@ -65,6 +65,13 @@ DiskMap is designed to be read-only unless you explicitly choose to move somethi
 
 Build outputs are intentionally not committed to this repository.
 
+Clone the repository and open PowerShell in its directory before building:
+
+```powershell
+git clone https://github.com/Whitich/DiskMap.git
+cd DiskMap
+```
+
 ```powershell
 .\build.ps1
 ```
@@ -73,6 +80,10 @@ Outputs:
 
 - `publish\DiskMap.exe` — portable, self-contained single-file executable
 - `dist\DiskMap-Setup-1.0.0.exe` — Inno Setup installer
+
+The installer is produced only when Inno Setup 6 is installed. If it is missing,
+the script prints a warning and keeps the portable executable. Launch the
+portable build with `.\publish\DiskMap.exe`.
 
 To build only the portable executable:
 
